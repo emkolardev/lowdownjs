@@ -1,2 +1,7 @@
 # lowdownjs
-javascript, oversimplified, with occasional illustrations.
+
+
+###javascript:  oversimplified by an intermediate coder (with occasional illustrations)
+
+
+a forray into online blogging/humor that i may continue.

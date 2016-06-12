@@ -1,0 +1,23 @@
+{
+  "name": "lowdownjs",
+  "version": "0.0.1",
+  "description": "javascript: oversimplified, with occasional illustrations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Emily Kolar <emkolardev@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
+  },
+  "devDependencies": {
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.2",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "superagent": "^1.7.2",
+    "webpack": "^1.12.13"
+  }
+}

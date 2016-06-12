@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" version="XHTML+RDFa 1.0" xml:lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta author="Emily Elizabeth Kolar"/>
+    <title></title>
+    <link rel="stylesheet" href="../css/vendor/normalize.css"/>
+	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu:500,300' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+	<main class="main">
+		<header class="header">
+			<div class="headerText">
+				<h1 class="h1" id="title-text">lowdownjs</h1>
+				<!-- <h2 class="h2">javascript: oversimplified, with occasional illustrations</h2> -->
+			</div>
+			<div class="menuIcon">
+				<div class="icon menu" id="menu-btn" data-target="menu" data-class="show"></div>
+			</div>
+		</header>
+		<div class="menuPanel" id="menu">
+			<ul class="menuList">
+				<li><a href="../index.html">Home</a></li>
+				<li><a href="mailto:emkolardev@gmail.com">Contact</a></li>
+			</ul>
+		</div>
+		<article class="article">
+			<div class="titleArea">
+				<h2 class="h2">"This"</h2>
+				<h4 class="h4">(And a lot of stuff about events)</h4>
+			</div>
+			<section class="section">
+				<p>Imagine the following scenario:
+				<br />There's a rock on the ground. You kick it a few inches to the left while saying, "This is in my way."</p>
+				<figure class="fig">
+					<img src="../images/kicked.png" alt="kickin' a rock" />
+				</figure>
+				<p>In that situation, we can think of your kick (not just the action itself, but that you swung your leg AND it hit an object) as an event. You could have done something else- hit the rock, picked it up, tried to blow on it until it rolled away, etc- but in this case you kicked it, so we'll call it the kick-event.
+				<figure class="fig">
+					<img src="../images/event.png" alt="it's the event." />
+				</figure>
+				<p>That event had an effect on the world: it made a rock move from point A to point B. If someone asked you, "How did that rock move to a different spot?", you'd be able to reference the kick-event by telling them, "The rock moved when I kicked it." Someone watching from nearby could have seen you kick it. Maybe it hurt your foot. These are all things you can reference later.</p>
+				<figure class="fig">
+					<img src="../images/effects.png" alt="kickin' a rock" />
+				</figure>
+				<p>Additionally, the kick-event was targeting an object: the rock. When you said, "This is in my way," you were referencing the rock. It could have been something else on the ground- a stick, a box, etc- but this time it was the rock.</p>
+				<figure class="fig">
+					<img src="../images/target.png" alt="rock is target" />
+				</figure>
+				<p>Lastly, just by having existed, your kick-event has certain properties. It had a speed, an angle, and a certain amount of force, among many other things. The rock also has certain properties by existing. For example, it has a color, a hardness level, a circumference, and a weight.</p>
+				<figure class="fig">
+					<img src="../images/props.png" alt="further analysis required." />
+				</figure>
+				<p>If you can imagine that scenario, you now understand concepts in JavaScript related to events and "this".</p>
+				<p>JavaScript, by design, can respond to an event that you've told it to listen for. After such an event occurs, just like in our above scenario, you should be able to reference it afterwards. So, by default, JS passes in a reference to the event as an argument in your callback function. So when we say:</p>
+				<p><pre class="pre">
+myThing.addEventListener('click', function(event) {
+	<span class="comment">//dostuffhere</span> 
+});</pre></p>
+				<p>You can think of it sorta like this:</p>
+				<figure class="fig code">
+					<img src="../images/code.png" alt="metaphorical coding" />
+				</figure>
+				<p>The word <em>event</em> is just a stand-in variable that can be used inside the callback function to reference the actual event and its properties. Instead of calling it <em>event</em>, you could name it <em>Fred</em> or <em>$qwerty</em> or any other legal variable name, but commonly, people use <em>event</em>, <em>evt</em> or <em>e</em> because those tend to be the most clear.</p>	
+				<p>Inside the body of the callback function, we often see stuff like this:</p>
+				<p><pre class="pre">
+myThing.addEventListener('click', function(event) {
+	console.log(event);
+	myLocationFunc(event.clientX, event.clientY);
+});</pre></p>
+				<p>Within that particular code, the actual event information will get passed in for <em>event</em>. In the browser's developer tools console, the result of console.log(event) will be an object describing the event, which looks something like this:</p>
+				<figure class="fig">
+					<img src="../images/console.png" alt="console output" />
+				</figure>
+				<p>As you can see there, clientX and clientY are both defacto properties of a mouse event (the type of event that a click is) which the browser will allow you to access from your code. So in our above callback function, event.clientX would have a value of 516, and event.clientY a value of 276. Referencing these properties can be thought of similarly to referencing the hardness of a rock or the speed at which you kicked it. How do you know what properties are available? Google for some lists, or even better, start doing a console.log for all the events you listen for and peruse their outputs.</p>
+				<h2 class="h2 btm"><em>Neat. So, what about "this"?</em></h2>
+				<p>The concept of <em>this</em> is sort of like saying "This is in my way," when kicking a rock, because really, it could apply to whatever object you happen to be kicking. In JavaScript, <em>this</em> is whatever object is receiving the action. To understand "this", consider the following piece of code:</p>
+<p><pre class="pre">
+<span class="comment">// make a variable to reference an existing DOM element by its id</span>
+var myBox = document.getElementById('my-box');
+
+<span class="comment">// attach a click-listener to the DOM element</span>
+myBox.addEventListener('click', function(event) {
+	var boxString = 'Box id: ' + myBox.id;
+	var targetString = 'Target id: ' + event.target.id;
+	var thisString = 'This element id: ' + this.id;
+	console.log(boxString, targetString, thisString);
+});</pre></p>
+				<p>The output of that console.log statement is going to be:</p>
+				<p><pre>
+Box id: my-box
+Target id: my-box
+This id: my-box</pre></p>
+				<p>In our example, the event's target (i.e., the element which was clicked) can be referenced within the function body using either <em>event.target</em> or <em>this</em>. Those are the same here, because they both refer to the element receiving the action, and the advantage of using <em>this</em> is that it's shorter. Additionally, these are both identical to our <em>myBox</em> variable. That's because in our code, we're attaching the event listener to a particular, specific element; thus, these three things all refer only to it.</p>
+				<figure class="fig code">
+					<img src="../images/multicode.png" alt="all rocks" />
+				</figure>
+				<p>So why use <em>this</em> at all? Well, for one, developers often don't know in advance which particular element the event listener is going to be attached to (or extensibly, which code object in general that something applies to). For example, what if you're attaching an event listener to each element stored inside an array? What if you need to write functions for dynamic webapps, or even just for static pages that have many dozens of objects to account for?</p>
+				<p><pre class="pre">
+<span class="comment">// make a variable to reference all my citation links</span>
+var allLinks = document.getElementsByClassName('citation-link');
+
+<span class="comment">// attach a click-listener to every citation link</span>
+for (var i = 0; i &lt; allLinks.length; i++) {
+	allLinks[i].addEventListener('click', function(event) {
+		var idString = 'ID of clicked link: ' + this.id;
+		var xPosition = 'Spot clicked: ' + event.clientX;
+		console.log(idString, xPosition);
+	});
+}
+				</pre></p>
+				<p>Now, the output of the console.log statement is going to be unique for every element that we attach our event listener to (assuming we have unique ids and our elements aren't all stacked in exactly the same place, which is a safe bet). That's because <em>this</em> always refers to the <em><strong>object currently receiving the action</strong></em>. This is a much better solution, because it scales; now I won't have to write that same code block 47 times.
+				<figure class="fig code">
+					<img src="../images/xs.png" alt="all rocks" />
+				</figure>
+				<p>So in <em>this</em> case (har har), a better metaphor might be that you're hopping mad, and you have no idea what you're going to be kicking, but you know its going to be something, and you know you're gonna want to talk about it later.</p>
+				<figure class="fig">
+					<img src="../images/alltherocks.png" alt="kicking mad" />
+				</figure>
+				</section>
+		</article>
+	</main>
+<script src="js/script.js"></script>
+</body>
+</html>
